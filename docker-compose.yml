@@ -1,0 +1,11 @@
+services:
+
+  adminsedomyapp:
+    command: npm run dev
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "10004:10004"
+    volumes:
+      - .:/app
