@@ -14,6 +14,9 @@ import Home from "./pages/Dashboard/Home";
 // import BasicTables from "./pages/Tables/BasicTables";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { TransactionsPage } from "./pages/Tables/TransactionsPage";
+import { Kyc2Page } from "./pages/Tables/Kyc2Page";
+import { KycRequest2Details } from "./pages/kyc/KycRequest2Details";
+import KycRequest2Details2 from "./pages/kyc/KycRequest2Details2";
 
 const queryClient = new QueryClient();
 
@@ -72,7 +75,12 @@ export default function App() {
                   path="/transactions"
                   element={<TransactionsPage />}
                 />
-                <Route index path="/user-kyc2" element={<Home />} />
+                <Route index path="/user-kyc2" element={<Kyc2Page />} />
+                {/* <Route path="/user-kyc2/:id" element={<KycRequest2Details />} /> */}
+                <Route
+                  path="/user-kyc2/:id"
+                  element={<KycRequest2Details2 />}
+                />
                 <Route index path="/user-kyc3" element={<Home />} />
                 <Route index path="/user-marchand" element={<Home />} />
                 <Route index path="/gest-admins" element={<Home />} />

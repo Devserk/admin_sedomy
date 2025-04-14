@@ -17,7 +17,7 @@ export const TransactionsPage = () => {
   const { data = [], isLoading, isError } = useTransactions();
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container">
       <h1 className="text-2xl font-bold mb-6">Transactions</h1>
       <TransactionTable data={data} isLoading={isLoading} isError={isError} />
     </div>

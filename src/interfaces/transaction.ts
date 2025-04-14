@@ -11,7 +11,6 @@ export interface ITransaction {
   updatedAt: string;
 }
 
-
 export interface Transaction {
   id: number;
   sender_id: string;

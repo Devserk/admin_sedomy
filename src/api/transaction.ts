@@ -2,6 +2,7 @@
 import { get } from "../hooks/request";
 import { TransactionResponse } from "../interfaces/transaction";
 
+
 export const fetchTransactions = async (): Promise<TransactionResponse> => {
   const url = `/payment_manage/transactions/allExchanges`;
 
@@ -9,8 +10,11 @@ export const fetchTransactions = async (): Promise<TransactionResponse> => {
   if (!response) {
     throw new Error("Erreur lors de la récupération des transactions.");
   }
-  return { data: response }; // si `response` est directement un tableau
+  return { data: response };
 };
+
+
+
 
 // import axios from 'axios';
 // import { ITransaction } from '../interfaces/transaction';
