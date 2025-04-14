@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router";
 
-// Assume these icons are imported from an icon library
 import {
   ChevronDownIcon,
   DollarLineIcon,
@@ -23,12 +22,12 @@ const navItems: NavItem[] = [
   {
     icon: <GridIcon />,
     name: "Dashboard",
-    path: "/"
+    path: "/",
   },
   {
     icon: <DollarLineIcon />,
     name: "Les transactions",
-    path: "/transactions"
+    path: "/transactions",
   },
   {
     icon: <GroupIcon />,
@@ -37,23 +36,25 @@ const navItems: NavItem[] = [
       {
         name: "Requêtes de KYC 2",
         path: "/user-kyc2",
-        pro: false
-      },{
+        pro: false,
+      },
+      {
         name: "Requêtes de KYC 3",
         path: "/user-kyc3",
-        pro: false
-      },{
+        pro: false,
+      },
+      {
         name: "Requêtes marchand",
         path: "/user-marchand",
-        pro: false
-      }
-    ]
+        pro: false,
+      },
+    ],
   },
   {
     icon: <UserCircleIcon />,
     name: "Gestion des admins",
-    path: "/gest-admins"
-  }
+    path: "/gest-admins",
+  },
 ];
 
 const AppSidebar: React.FC = () => {
@@ -65,14 +66,14 @@ const AppSidebar: React.FC = () => {
     index: number;
   } | null>(null);
   const [subMenuHeight, setSubMenuHeight] = useState<Record<string, number>>(
-    {}
+    {},
   );
   const subMenuRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   // const isActive = (path: string) => location.pathname === path;
   const isActive = useCallback(
     (path: string) => location.pathname === path,
-    [location.pathname]
+    [location.pathname],
   );
 
   useEffect(() => {
@@ -251,8 +252,8 @@ const AppSidebar: React.FC = () => {
           isExpanded || isMobileOpen
             ? "w-[290px]"
             : isHovered
-            ? "w-[290px]"
-            : "w-[90px]"
+              ? "w-[290px]"
+              : "w-[90px]"
         }
         ${isMobileOpen ? "translate-x-0" : "-translate-x-full"}
         lg:translate-x-0`}

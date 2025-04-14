@@ -28,7 +28,12 @@ export default function SignInForm() {
                   <Label>
                     Email <span className="text-error-500">*</span>{" "}
                   </Label>
-                  <Input type="email" id="email" name="email" placeholder="info@gmail.com" />
+                  <Input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="info@gmail.com"
+                  />
                 </div>
                 <div>
                   <Label>
@@ -37,7 +42,8 @@ export default function SignInForm() {
                   <div className="relative">
                     <Input
                       type={showPassword ? "text" : "password"}
-                      id="password" name="password"
+                      id="password"
+                      name="password"
                       placeholder="Enter your password"
                     />
                     <span
