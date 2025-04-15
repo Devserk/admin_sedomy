@@ -31,6 +31,11 @@ export interface KycRequestResponse {
 // DATA 2 POUR KYC 2
 
 // interfaces/Kyc.ts
+
+export interface GetRequestDataParams {
+  id: number;
+}
+
 export interface FileObject {
   filename: string;
   url: string;

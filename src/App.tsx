@@ -15,8 +15,10 @@ import Home from "./pages/Dashboard/Home";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { TransactionsPage } from "./pages/Tables/TransactionsPage";
 import { Kyc2Page } from "./pages/Tables/Kyc2Page";
-import { KycRequest2Details } from "./pages/kyc/KycRequest2Details";
+// import { KycRequest2Details } from "./pages/kyc/KycRequest2Details";
 import KycRequest2Details2 from "./pages/kyc/KycRequest2Details2";
+import { MerchantsPage } from "./pages/merchants/MerchantsPage";
+import MerchantsDetailsPage from "./pages/merchants/MerchantsDetailsPage";
 
 const queryClient = new QueryClient();
 
@@ -82,7 +84,13 @@ export default function App() {
                   element={<KycRequest2Details2 />}
                 />
                 <Route index path="/user-kyc3" element={<Home />} />
-                <Route index path="/user-marchand" element={<Home />} />
+                <Route index path="/merchants" element={<MerchantsPage />} />
+
+                <Route
+                  path="/merchants/:id"
+                  element={<MerchantsDetailsPage />}
+                />
+
                 <Route index path="/gest-admins" element={<Home />} />
 
                 {/* Profile Page */}
