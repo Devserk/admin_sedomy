@@ -31,7 +31,7 @@ const navItems: NavItem[] = [
   },
   {
     icon: <GroupIcon />,
-    name: "Gestion des utilisateurs",
+    name: "Validation",
     subItems: [
       {
         name: "Requêtes de KYC 2",

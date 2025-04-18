@@ -15,16 +15,21 @@ export interface GetMerchantDetailsParams {
   id: number;
 }
 
+export interface FileObject {
+  filename: string;
+  url: string;
+}
+
 export interface MerchantDetailsResponse {
   id: number;
   nom: string;
   prenom: string;
   phoneNumber: number;
   merchant_id: string;
-  rccm_paper: string | null;
-  ifu_paper: string | null;
-  quality_control_paper: string | null;
-  property_legal_paper: string | null;
+  rccm_paper: FileObject | null;
+  ifu_paper: FileObject | null;
+  quality_control_paper: FileObject | null;
+  property_legal_paper: FileObject | null;
   status: string;
   createdAt: string;
   updatedAt: string;

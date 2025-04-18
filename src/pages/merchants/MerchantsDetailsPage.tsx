@@ -58,6 +58,8 @@ const MerchantsDetailsPage = () => {
     );
   }
 
+  // console.log('merchant', merchant);
+
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
       <div className="flex justify-between items-start mb-8">
@@ -79,13 +81,15 @@ const MerchantsDetailsPage = () => {
             <h2 className="text-xl font-semibold mb-4 text-gray-700">
               Informations générales
             </h2>
-            <dl className="grid grid-cols-2 gap-4">
+            {/* <dl className="grid grid-cols-2 gap-4">
+              
               <div>
                 <dt className="text-sm text-gray-500">ID Marchand</dt>
                 <dd className="font-mono text-gray-900">
                   {merchant.merchant_id}
                 </dd>
               </div>
+
               <div>
                 <dt className="text-sm text-gray-500">Téléphone</dt>
                 <dd className="text-gray-900">{merchant.phoneNumber}</dd>
@@ -94,6 +98,35 @@ const MerchantsDetailsPage = () => {
                 <dt className="text-sm text-gray-500">Date de création</dt>
                 <dd className="text-gray-900">
                   {new Date(merchant.createdAt).toLocaleDateString("fr-FR")}
+                </dd>
+              </div>
+            </dl> */}
+
+            <dl className="space-y-6">
+              {" "}
+              {/* Utilisation de space-y au lieu de grid */}
+              <div className="space-y-1">
+                <dt className="text-sm text-gray-500">ID Marchand</dt>
+                <dd className="font-mono text-gray-900 break-all">
+                  {merchant.merchant_id}
+                </dd>
+              </div>
+              <div className="space-y-1">
+                <dt className="text-sm text-gray-500">Téléphone</dt>
+                <dd className="text-gray-900">
+                  {merchant.phoneNumber || "Non renseigné"}
+                </dd>
+              </div>
+              <div className="space-y-1">
+                <dt className="text-sm text-gray-500">Date de création</dt>
+                <dd className="text-gray-900">
+                  {new Date(merchant.createdAt).toLocaleDateString("fr-FR", {
+                    day: "2-digit",
+                    month: "long",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
                 </dd>
               </div>
             </dl>
@@ -114,42 +147,72 @@ const MerchantsDetailsPage = () => {
               {merchant.status.replace("_", " ")}
             </span>
           </div>
+
+          <div className="flex gap-4">
+            <button
+              onClick={() => navigate(-1)}
+              className="bg-blue-500 text-white px-4 py-1  rounded hover:bg-blue-600 transition-colors"
+            >
+              Valider
+            </button>
+            <button
+              onClick={() => navigate(-1)}
+              className="bg-red-500 text-white px-4 py-1  rounded hover:bg-red-600 transition-colors"
+            >
+              Rejeter
+            </button>
+          </div>
         </div>
+
+        {/*    */}
 
         {/* Documents */}
         <div className="space-y-4">
           <h2 className="text-xl font-semibold mb-4 text-gray-700">
             Documents
           </h2>
-          <div className="space-y-2">
+          <div className="grid grid-cols-2 gap-4">
             {[
-              { label: "RCCM", value: merchant.rccm_paper },
-              { label: "IFU", value: merchant.ifu_paper },
+              { label: "RCCM", doc: merchant.rccm_paper },
+              { label: "IFU", doc: merchant.ifu_paper },
               {
                 label: "Contrôle qualité",
-                value: merchant.quality_control_paper,
+                doc: merchant.quality_control_paper,
               },
               {
                 label: "Titre de propriété",
-                value: merchant.property_legal_paper,
+                doc: merchant.property_legal_paper,
               },
-            ].map((doc) => (
-              <div
-                key={doc.label}
-                className="flex items-center justify-between"
-              >
-                <span className="text-gray-600">{doc.label}</span>
-                {doc.value ? (
-                  <a
-                    href={doc.value}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-500 hover:underline"
-                  >
-                    Voir le document
-                  </a>
+            ].map(({ label, doc }) => (
+              <div key={label} className="space-y-2">
+                <h3 className="text-sm font-medium text-gray-600">{label}</h3>
+                {doc ? (
+                  <div className="border rounded-lg overflow-hidden">
+                    <a
+                      href={doc.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block relative group"
+                    >
+                      <img
+                        src={doc.url}
+                        alt={label}
+                        className="w-full h-24 object-contain p-2"
+                        style={{ objectFit: "contain" }}
+                      />
+                      <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all" />
+
+                      <p>lien : {doc.url}</p>
+                      <svg className="absolute w-1/2 text-gray-300" />
+                    </a>
+                    {/* <p className="text-xs text-gray-500 p-2 truncate">
+                      {doc.filename}
+                    </p> */}
+                  </div>
                 ) : (
-                  <span className="text-gray-400">Non fourni</span>
+                  <div className="max-h-32 bg-gray-50 rounded-lg flex items-center justify-center text-gray-400">
+                    Document non fourni
+                  </div>
                 )}
               </div>
             ))}

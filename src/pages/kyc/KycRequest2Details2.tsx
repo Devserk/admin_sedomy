@@ -155,7 +155,7 @@ const KycRequest2Details2 = () => {
                         onClick={() => window.open(file.url, "_blank")}
                       />
 
-                      <p>lien : {file.url}</p>
+                      {/* <p>lien : {file.url}</p> */}
                     </div>
                     <p className="text-xs text-gray-500 truncate">
                       {file.filename}
