@@ -35,6 +35,16 @@ export interface MerchantDetailsResponse {
   updatedAt: string;
 }
 
+export interface MerchantActionResponse {
+  success: boolean;
+  message?: string;
+  error?: string;
+}
+
+export interface MerchantActionParams {
+  id: string | number;
+}
+
 // export interface MerchantDetailsResponse {
 //   success: boolean;
 //   data: MerchantDetails;

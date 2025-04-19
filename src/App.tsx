@@ -19,6 +19,7 @@ import { Kyc2Page } from "./pages/Tables/Kyc2Page";
 import KycRequest2Details2 from "./pages/kyc/KycRequest2Details2";
 import { MerchantsPage } from "./pages/merchants/MerchantsPage";
 import MerchantsDetailsPage from "./pages/merchants/MerchantsDetailsPage";
+import { Toaster } from "react-hot-toast";
 
 const queryClient = new QueryClient();
 
@@ -103,6 +104,7 @@ export default function App() {
             {/* Fallback Route */}
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <Toaster />
         </Router>
       </QueryClientProvider>
     </>

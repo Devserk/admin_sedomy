@@ -6,8 +6,8 @@ import {
   MerchantDetailsResponse,
 } from "../../interfaces/Merchant";
 import { useQuery } from "@tanstack/react-query";
-// import { useMerchantDetails } from "../hooks/useMerchantDetails";
-// import { MerchantDetails } from "../interfaces/Merchant";
+import { useMerchantActions } from "../../hooks/useMerchants";
+import { toast } from "react-hot-toast";
 
 export const useMerchantDetails = (params: GetMerchantDetailsParams) => {
   return useQuery<MerchantDetailsResponse, Error>({
@@ -22,10 +22,10 @@ export const useMerchantDetails = (params: GetMerchantDetailsParams) => {
 const MerchantsDetailsPage = () => {
   const { state } = useLocation();
   const merchants = state?.merchant as { id: number };
+  const { rejectMutation, validateMutation } = useMerchantActions();
 
   // merchant
   console.log("id", merchants.id);
-
   const navigate = useNavigate();
 
   const {
@@ -58,7 +58,33 @@ const MerchantsDetailsPage = () => {
     );
   }
 
-  // console.log('merchant', merchant);
+  // const handleAction = async (actionType: "validate" | "reject") => {
+  //   // const actionName = actionType === "validate" ? "Validation" : "Rejet";
+
+  //   try {
+  //     // Afficher le toast de chargement
+  //     // const toastId = toast.loading(`${actionName} en cours...`);
+
+  //     const params = { id: merchant.id };
+
+  //     if (actionType === "validate") {
+  //       await validateMerchant.execute(params);
+  //     } else {
+  //       await rejectMerchant.execute(params);
+  //     }
+  //   } catch (error) {
+  //     // Gérer l'erreur (notification, log, etc.)
+  //     console.error(`Erreur lors de ${actionType} :`, error);
+  //   }
+  // };
+
+  const handleValidate = () => {
+    validateMutation.mutate({ id: merchant.id });
+  };
+
+  const handleReject = () => {
+    rejectMutation.mutate({ id: merchant.id });
+  };
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
@@ -148,7 +174,41 @@ const MerchantsDetailsPage = () => {
             </span>
           </div>
 
-          <div className="flex gap-4">
+          {/* Validation and Reject */}
+
+          <div className="flex gap-4 mt-6">
+            <button
+              onClick={handleValidate}
+              disabled={validateMutation.isPending}
+              className={`px-6 py-2 rounded-lg text-sm font-medium transition-colors
+          ${
+            validateMutation.isPending
+              ? "bg-gray-300 cursor-not-allowed"
+              : "bg-green-600 hover:bg-green-700 text-white"
+          }`}
+            >
+              {validateMutation.isPending
+                ? "Validation..."
+                : "Valider le marchand"}
+            </button>
+
+            <button
+              onClick={handleReject}
+              disabled={rejectMutation.isPending}
+              className={`px-6 py-2 rounded-lg text-sm font-medium transition-colors
+          ${
+            rejectMutation.isPending
+              ? "bg-gray-300 cursor-not-allowed"
+              : "bg-red-600 hover:bg-red-700 text-white"
+          }`}
+            >
+              {rejectMutation.isPending
+                ? "Rejet en cours..."
+                : "Rejeter la demande"}
+            </button>
+          </div>
+
+          {/* <div className="flex gap-4">
             <button
               onClick={() => navigate(-1)}
               className="bg-blue-500 text-white px-4 py-1  rounded hover:bg-blue-600 transition-colors"
@@ -161,7 +221,7 @@ const MerchantsDetailsPage = () => {
             >
               Rejeter
             </button>
-          </div>
+          </div> */}
         </div>
 
         {/*    */}
