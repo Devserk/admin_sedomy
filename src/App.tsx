@@ -20,6 +20,8 @@ import KycRequest2Details2 from "./pages/kyc/KycRequest2Details2";
 import { MerchantsPage } from "./pages/merchants/MerchantsPage";
 import MerchantsDetailsPage from "./pages/merchants/MerchantsDetailsPage";
 import { Toaster } from "react-hot-toast";
+import { Kyc3Page } from "./pages/Tables/Kyc3Page";
+import { AllOrders } from "./pages/commands/AllOrders";
 
 const queryClient = new QueryClient();
 
@@ -84,7 +86,11 @@ export default function App() {
                   path="/user-kyc2/:id"
                   element={<KycRequest2Details2 />}
                 />
-                <Route index path="/user-kyc3" element={<Home />} />
+                <Route index path="/user-kyc3" element={<Kyc3Page />} />
+                <Route
+                  path="/user-kyc3/:id"
+                  element={<KycRequest2Details2 />}
+                />
                 <Route index path="/merchants" element={<MerchantsPage />} />
 
                 <Route
@@ -92,7 +98,7 @@ export default function App() {
                   element={<MerchantsDetailsPage />}
                 />
 
-                <Route index path="/gest-admins" element={<Home />} />
+                <Route index path="/list-orders" element={<AllOrders />} />
 
                 {/* Profile Page */}
                 <Route path="/profile" element={<UserProfiles />} />

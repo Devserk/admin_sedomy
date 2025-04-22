@@ -1,22 +1,22 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { MerchantApi } from "../api/merchants";
 import { MerchantActionParams } from "../interfaces/Merchant";
 import toast from "react-hot-toast";
+import { KycRequestApi } from "../api/kyc";
 
-export const useMerchantActions = () => {
+export const useRequestKycActions = () => {
   const queryClient = useQueryClient();
 
   const baseConfig = {
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["merchants"] });
-      queryClient.invalidateQueries({ queryKey: ["merchant-details"] });
+      queryClient.invalidateQueries({ queryKey: ["kyc-requests"] });
+      queryClient.invalidateQueries({ queryKey: ["kyc-data"] });
     },
   };
 
   // Mutation de rejet
-  const rejectMutation = useMutation({
+  const rejectKycMutation = useMutation({
     mutationFn: (params: MerchantActionParams) =>
-      MerchantApi.rejectMerchant(params),
+      KycRequestApi.rejectKyc2(params),
     // onMutate: () => {
     //   toast.loading("Rejet de la requête en cours...", { id: "rejet" });
     // },
@@ -32,9 +32,9 @@ export const useMerchantActions = () => {
   });
 
   // Mutation de validation
-  const validateMutation = useMutation({
+  const validateKycMutation = useMutation({
     mutationFn: (params: MerchantActionParams) =>
-      MerchantApi.validateMerchant(params),
+      KycRequestApi.validateKyc2(params),
     // onMutate: () => {
     //   toast.loading("Validation de la requête en cours...", {
     //     id: "validation",
@@ -52,7 +52,7 @@ export const useMerchantActions = () => {
   });
 
   return {
-    rejectMutation,
-    validateMutation,
+    rejectKycMutation,
+    validateKycMutation,
   };
 };

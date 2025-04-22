@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router";
 
 import {
+  BoxIconLine,
   ChevronDownIcon,
   DollarLineIcon,
   GridIcon,
@@ -51,9 +52,9 @@ const navItems: NavItem[] = [
     ],
   },
   {
-    icon: <UserCircleIcon />,
-    name: "Gestion des admins",
-    path: "/gest-admins",
+    icon: <BoxIconLine />,
+    name: "Liste des Commandes",
+    path: "/list-orders",
   },
 ];
 

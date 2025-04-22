@@ -40,7 +40,7 @@ export const MerchantApi = {
     id,
   }: MerchantActionParams): Promise<MerchantActionResponse> => {
     const { data, error } = await put<MerchantActionResponse>(
-      `${API_MERCHNATS_BASE}/api/payment_manage/reject_of_merchant/${id}`
+      `https://emes.bj:10002/api/market_manage/merchants/reject_of_merchant/${id}`
     );
 
     if (error) throw new Error(error);
@@ -52,7 +52,7 @@ export const MerchantApi = {
     id,
   }: MerchantActionParams): Promise<MerchantActionResponse> => {
     const { data, error } = await put<MerchantActionResponse>(
-      `https://emes.bj:10001/api/market_manage/valid_request/${id}`
+      `https://emes.bj:10002/api/market_manage/merchants/valid_of_merchant/${id}`
     );
 
     if (error) throw new Error(error);

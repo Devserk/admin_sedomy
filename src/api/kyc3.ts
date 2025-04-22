@@ -7,12 +7,12 @@ import {
 import { MerchantActionParams } from "../interfaces/Merchant";
 // import { KycResponse } from "../interfaces/KycRequest";
 
-export const fetchKycRequests = async (): Promise<KycRequestResponse> => {
-  const url = `/payment_manage/requests/allrequests_2`;
+export const fetchKyc3Requests = async (): Promise<KycRequestResponse> => {
+  const url = `/payment_manage/requests/allrequests_3`;
 
   const response = await get(url);
   if (!response) {
-    throw new Error("Erreur lors de la récupération des requêtes KYC.");
+    throw new Error("Erreur lors de la récupération des requêtes KYC de niveau 3.");
   }
 
   return response;
@@ -34,9 +34,7 @@ export const fetchKycRequestsById = async (
 };
 
 export const KycRequestApi = {
-  rejectKyc2: async ({
-    id,
-  }: MerchantActionParams): Promise<ApiResponse> => {
+  rejectKyc2: async ({ id }: MerchantActionParams): Promise<ApiResponse> => {
     const { data, error } = await put<ApiResponse>(
       `https://emes.bj:10001/api/payment_manage/requests/reject_request/${id}`
     );
@@ -46,9 +44,7 @@ export const KycRequestApi = {
     return data!;
   },
 
-  validateKyc2: async ({
-    id,
-  }: MerchantActionParams): Promise<ApiResponse> => {
+  validateKyc2: async ({ id }: MerchantActionParams): Promise<ApiResponse> => {
     const { data, error } = await put<ApiResponse>(
       `https://emes.bj:10001/api/payment_manage/requests/valid_request/${id}`
     );

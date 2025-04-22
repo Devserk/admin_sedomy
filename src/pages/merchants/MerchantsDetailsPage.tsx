@@ -7,7 +7,8 @@ import {
 } from "../../interfaces/Merchant";
 import { useQuery } from "@tanstack/react-query";
 import { useMerchantActions } from "../../hooks/useMerchants";
-import { toast } from "react-hot-toast";
+// import { toast } from "react-hot-toast";
+import { functions } from "../../function";
 
 export const useMerchantDetails = (params: GetMerchantDetailsParams) => {
   return useQuery<MerchantDetailsResponse, Error>({
@@ -163,14 +164,14 @@ const MerchantsDetailsPage = () => {
             <h2 className="text-xl font-semibold mb-4 text-gray-700">Statut</h2>
             <span
               className={`px-3 py-1 rounded-full text-sm ${
-                merchant.status === "active"
+                merchant.status === "verified"
                   ? "bg-green-100 text-green-800"
                   : merchant.status === "pending_verification"
                     ? "bg-yellow-100 text-yellow-800"
                     : "bg-red-100 text-red-800"
               }`}
             >
-              {merchant.status.replace("_", " ")}
+              {functions.statusTranslations[merchant.status]}
             </span>
           </div>
 

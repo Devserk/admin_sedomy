@@ -10,6 +10,7 @@ import {
 } from "@tanstack/react-table";
 import { Merchant } from "../../interfaces/Merchant";
 import { useNavigate } from "react-router-dom";
+import { functions } from "../../function";
 
 interface MerchantTableProps {
   data: Merchant[];
@@ -47,18 +48,28 @@ export const MerchantTable = ({
     columnHelper.accessor("status", {
       header: "Statut",
       cell: (info) => {
-        const status = info.getValue();
+        const status = info.getValue()?.toString() || "unknown";
+
+        const translation =
+          status in functions.statusTranslations
+            ? functions.statusTranslations[
+                status as keyof typeof functions.statusTranslations
+              ]
+            : status;
+
         return status ? (
           <span
-            className={`px-2 py-1 rounded-full text-xs ${
-              status === "success"
+            className={`px-3 py-1 rounded-full text-sm ${
+              status === "verified"
                 ? "bg-green-100 text-green-800"
-                : status === "pending"
+                : status === "pending_verification"
                   ? "bg-yellow-100 text-yellow-800"
                   : "bg-red-100 text-red-800"
             }`}
           >
-            {status}
+            {/* {status} */}
+
+            {functions.truncateText(translation, 20)}
           </span>
         ) : (
           <span className="px-2 py-1 rounded-full text-xs bg-gray-100 text-gray-800">

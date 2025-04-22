@@ -8,59 +8,89 @@ import {
   createColumnHelper,
   SortingState,
 } from "@tanstack/react-table";
-import { KycRequest } from "../../interfaces/KycRequest";
 import { useNavigate } from "react-router-dom";
-import { functions } from "../../function";
+import { Command } from "../../interfaces/orders";
 
-interface KycRequestTableProps {
-  data: KycRequest[];
+interface AllOrdersTableProps {
+  data: Command[];
   isLoading: boolean;
   isError: boolean;
 }
 
-export const KycRequestTable = ({
+// Fonction utilitaire pour traduire les statuts
+const statusTranslations: Record<string, string> = {
+  pending: "En attente",
+  processing: "En traitement",
+  shipped: "Expédié",
+  delivered: "Livré",
+  cancelled: "Annulé",
+  completed: "Terminé",
+  // Ajoutez d'autres statuts selon vos besoins
+};
+
+// Fonction pour formater le prix
+const formatPrice = (price: number): string => {
+  return new Intl.NumberFormat("fr-FR", {
+    style: "currency",
+    currency: "EUR",
+  }).format(price);
+};
+
+export const AllOrdersTable = ({
   data,
   isLoading,
   isError,
-}: KycRequestTableProps) => {
+}: AllOrdersTableProps) => {
   const [sorting, setSorting] = useState<SortingState>([]);
-
-  const columnHelper = createColumnHelper<KycRequest>();
   const navigate = useNavigate();
 
+  const columnHelper = createColumnHelper<Command>();
+
   const columns = [
-    columnHelper.accessor((row) => row.user.nom, {
-      id: "nom",
-      header: "Nom",
+    columnHelper.accessor("merchant_payment_id", {
+      header: "ID Vendeur",
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor((row) => row.user.prenom, {
-      id: "prenom",
-      header: "Prénom",
+    columnHelper.accessor("buyer_payment_id", {
+      header: "ID Acheteur",
       cell: (info) => info.getValue(),
     }),
-    columnHelper.accessor("kind_op", {
-      header: "Type",
+    columnHelper.accessor((row) => row.product.nom_produit, {
+      id: "product_name",
+      header: "Produit",
       cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor("quantity", {
+      header: "Quantité",
+      cell: (info) => info.getValue(),
+    }),
+    columnHelper.accessor("cost", {
+      header: "Prix Total",
+      cell: (info) => formatPrice(info.getValue()),
     }),
     columnHelper.accessor("status", {
       header: "Statut",
       cell: (info) => (
         <span
           className={`px-2 py-1 rounded-full text-xs ${
-            info.getValue() === "success"
+            info.getValue() === "completed"
               ? "bg-green-100 text-green-800"
-              : info.getValue() === "pending"
+              : info.getValue() === "pending" ||
+                  info.getValue() === "processing"
                 ? "bg-yellow-100 text-yellow-800"
-                : "bg-red-100 text-red-800"
+                : info.getValue() === "cancelled"
+                  ? "bg-red-100 text-red-800"
+                  : info.getValue() === "shipped"
+                    ? "bg-blue-100 text-blue-800"
+                    : "bg-gray-100 text-gray-800"
           }`}
         >
-          {functions.statusTranslations[info.getValue()]}
+          {statusTranslations[info.getValue()] || info.getValue()}
         </span>
       ),
     }),
     columnHelper.accessor("createdAt", {
-      header: "Date de création",
+      header: "Date de commande",
       cell: (info) =>
         new Date(info.getValue()).toLocaleDateString("fr-FR", {
           day: "2-digit",
@@ -70,24 +100,50 @@ export const KycRequestTable = ({
           minute: "2-digit",
         }),
     }),
+    // columnHelper.accessor("date_livraison", {
+    //   header: "Date de livraison",
+    //   cell: (info) =>
+    //     info.getValue()
+    //       ? new Date(info.getValue()).toLocaleDateString("fr-FR", {
+    //           day: "2-digit",
+    //           month: "2-digit",
+    //           year: "numeric",
+    //         })
+    //       : "Non définie",
+    // }),
     columnHelper.display({
       id: "actions",
       header: "Actions",
       cell: (info) => (
-        <button
-          onClick={() => handleViewRequest(info.row.original)}
-          className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm transition duration-200 cursor:pointer"
-        >
-          Consulter la demande
-        </button>
+        <div className="flex space-x-2">
+          <button
+            onClick={() => handleViewCommand(info.row.original)}
+            className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm transition duration-200"
+          >
+            Détails
+          </button>
+          {info.row.original.status === "pending" && (
+            <button
+              onClick={() => handleCancelCommand(info.row.original.id)}
+              className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm transition duration-200"
+            >
+              Annuler
+            </button>
+          )}
+        </div>
       ),
     }),
   ];
 
-  // Fonction pour gérer l'action de consultation
-  const handleViewRequest = (request: KycRequest) => {
-    navigate(`/user-kyc2/${request.id}`, { state: { request } });
-    console.log("Consulter la demande:", request);
+  // Fonction pour gérer l'action de consultation des détails
+  const handleViewCommand = (command: Command) => {
+    navigate(`/commandes/${command.id}`, { state: { command } });
+  };
+
+  // Fonction pour gérer l'annulation de commande
+  const handleCancelCommand = (commandId: number) => {
+    console.log("Annulation de la commande:", commandId);
+    // Implémentez ici la logique d'annulation
   };
 
   const table = useReactTable({
@@ -100,6 +156,11 @@ export const KycRequestTable = ({
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    initialState: {
+      pagination: {
+        pageSize: 10,
+      },
+    },
   });
 
   if (isLoading) {
@@ -107,7 +168,7 @@ export const KycRequestTable = ({
       <div className="w-full h-64 flex items-center justify-center">
         <div className="flex flex-col items-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-          <p className="mt-4 text-gray-600">Chargement des demandes KYC...</p>
+          <p className="mt-4 text-gray-600">Chargement des commandes...</p>
         </div>
       </div>
     );
@@ -119,8 +180,8 @@ export const KycRequestTable = ({
         <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded">
           <p className="font-bold">Erreur</p>
           <p>
-            Impossible de charger les données de demandes KYC. Veuillez
-            réessayer plus tard.
+            Impossible de charger les données des commandes. Veuillez réessayer
+            plus tard.
           </p>
         </div>
       </div>
@@ -177,7 +238,7 @@ export const KycRequestTable = ({
                 colSpan={columns.length}
                 className="px-6 py-4 text-center text-sm text-gray-500"
               >
-                Aucune demande KYC trouvée
+                Aucune commande trouvée
               </td>
             </tr>
           )}
@@ -185,7 +246,7 @@ export const KycRequestTable = ({
       </table>
       <div className="flex items-center justify-between bg-white px-4 py-3 border-t border-gray-200">
         <p className="text-sm text-gray-700 px-4 py-2">
-          Nombre total de demandes : <strong>{data.length}</strong>
+          Nombre total de commandes : <strong>{data.length}</strong>
         </p>
 
         <div className="flex items-center space-x-2">
@@ -203,6 +264,13 @@ export const KycRequestTable = ({
           >
             {"<"}
           </button>
+          <span className="text-sm text-gray-700">
+            Page{" "}
+            <strong>
+              {table.getState().pagination.pageIndex + 1} sur{" "}
+              {table.getPageCount()}
+            </strong>
+          </span>
           <button
             className="px-3 py-1 border rounded text-sm disabled:opacity-50"
             onClick={() => table.nextPage()}
@@ -219,13 +287,6 @@ export const KycRequestTable = ({
           </button>
         </div>
         <div className="flex items-center text-sm text-gray-500">
-          <span>
-            Page{" "}
-            <strong>
-              {table.getState().pagination.pageIndex + 1} of{" "}
-              {table.getPageCount()}
-            </strong>
-          </span>
           <select
             className="ml-2 border rounded px-1"
             value={table.getState().pagination.pageSize}
@@ -233,7 +294,7 @@ export const KycRequestTable = ({
               table.setPageSize(Number(e.target.value));
             }}
           >
-            {[5, 10, 20, 30, 40, 50].map((pageSize) => (
+            {[5, 10, 20, 30, 50].map((pageSize) => (
               <option key={pageSize} value={pageSize}>
                 Afficher {pageSize}
               </option>
