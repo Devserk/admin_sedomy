@@ -28,11 +28,12 @@ const statusTranslations: Record<string, string> = {
   // Ajoutez d'autres statuts selon vos besoins
 };
 
-// Fonction pour formater le prix
+// Fonction pour formater le prix en FCFA
 const formatPrice = (price: number): string => {
-  return new Intl.NumberFormat("fr-FR", {
+  return new Intl.NumberFormat("fr-FC", {
+    // Utilisez "fr-FC" pour le formatage en FCFA
     style: "currency",
-    currency: "EUR",
+    currency: "XOF", // Code de la monnaie pour le Franc CFA
   }).format(price);
 };
 
@@ -49,16 +50,28 @@ export const AllOrdersTable = ({
   const columns = [
     columnHelper.accessor("merchant_payment_id", {
       header: "ID Vendeur",
-      cell: (info) => info.getValue(),
+      cell: (info) => (
+        <div className="w-24 truncate" title={info.getValue()}>
+          {info.getValue()}
+        </div>
+      ),
     }),
     columnHelper.accessor("buyer_payment_id", {
       header: "ID Acheteur",
-      cell: (info) => info.getValue(),
+      cell: (info) => (
+        <div className="w-24 truncate" title={info.getValue()}>
+          {info.getValue()}
+        </div>
+      ),
     }),
     columnHelper.accessor((row) => row.product.nom_produit, {
       id: "product_name",
       header: "Produit",
-      cell: (info) => info.getValue(),
+      cell: (info) => (
+        <div className="w-12 truncate" title={info.getValue()}>
+          {info.getValue()}
+        </div>
+      ),
     }),
     columnHelper.accessor("quantity", {
       header: "Quantité",
@@ -89,28 +102,28 @@ export const AllOrdersTable = ({
         </span>
       ),
     }),
-    columnHelper.accessor("createdAt", {
-      header: "Date de commande",
-      cell: (info) =>
-        new Date(info.getValue()).toLocaleDateString("fr-FR", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
-    }),
-    // columnHelper.accessor("date_livraison", {
-    //   header: "Date de livraison",
+    // columnHelper.accessor("createdAt", {
+    //   header: "Date de commande",
     //   cell: (info) =>
-    //     info.getValue()
-    //       ? new Date(info.getValue()).toLocaleDateString("fr-FR", {
-    //           day: "2-digit",
-    //           month: "2-digit",
-    //           year: "numeric",
-    //         })
-    //       : "Non définie",
+    //     new Date(info.getValue()).toLocaleDateString("fr-FR", {
+    //       day: "2-digit",
+    //       month: "2-digit",
+    //       year: "numeric",
+    //       hour: "2-digit",
+    //       minute: "2-digit",
+    //     }),
     // }),
+    columnHelper.accessor("date_livraison", {
+      header: "Date de livraison",
+      cell: (info) =>
+        info.getValue()
+          ? new Date(info.getValue()).toLocaleDateString("fr-FR", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+            })
+          : "Non définie",
+    }),
     columnHelper.display({
       id: "actions",
       header: "Actions",
@@ -122,14 +135,14 @@ export const AllOrdersTable = ({
           >
             Détails
           </button>
-          {info.row.original.status === "pending" && (
+          {/* {info.row.original.status === "pending" && (
             <button
               onClick={() => handleCancelCommand(info.row.original.id)}
               className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm transition duration-200"
             >
               Annuler
             </button>
-          )}
+          )} */}
         </div>
       ),
     }),
@@ -137,7 +150,7 @@ export const AllOrdersTable = ({
 
   // Fonction pour gérer l'action de consultation des détails
   const handleViewCommand = (command: Command) => {
-    navigate(`/commandes/${command.id}`, { state: { command } });
+    navigate(`/list-orders/${command.id}`, { state: { command } });
   };
 
   // Fonction pour gérer l'annulation de commande

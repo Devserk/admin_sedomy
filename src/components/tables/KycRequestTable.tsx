@@ -86,7 +86,7 @@ export const KycRequestTable = ({
 
   // Fonction pour gérer l'action de consultation
   const handleViewRequest = (request: KycRequest) => {
-    navigate(`/user-kyc2/${request.id}`, { state: { request } });
+    navigate(`/user-kyc3/${request.id}`, { state: { request } });
     console.log("Consulter la demande:", request);
   };
 

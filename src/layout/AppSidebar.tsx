@@ -5,10 +5,10 @@ import {
   BoxIconLine,
   ChevronDownIcon,
   DollarLineIcon,
-  GridIcon,
+  // GridIcon,
   GroupIcon,
   HorizontaLDots,
-  UserCircleIcon,
+  // UserCircleIcon,
 } from "../icons";
 import { useSidebar } from "../context/SidebarContext";
 
@@ -20,11 +20,11 @@ type NavItem = {
 };
 
 const navItems: NavItem[] = [
-  {
-    icon: <GridIcon />,
-    name: "Dashboard",
-    path: "/",
-  },
+  // {
+  //   icon: <GridIcon />,
+  //   name: "Dashboard",
+  //   path: "/",
+  // },
   {
     icon: <DollarLineIcon />,
     name: "Les transactions",
@@ -269,7 +269,14 @@ const AppSidebar: React.FC = () => {
         <Link to="/">
           {isExpanded || isHovered || isMobileOpen ? (
             <>
-              <img
+              <h1 className="text-[24px] font-bold text-center hidden dark:block dark:text-white/60 py-0">
+                Sedomy
+              </h1>
+
+              <h1 className="text-[24px] font-bold text-center dark:hidden">
+                Sedomy
+              </h1>
+              {/* <img
                 className="dark:hidden"
                 src="/images/logo/logo.svg"
                 alt="Logo"
@@ -282,7 +289,7 @@ const AppSidebar: React.FC = () => {
                 alt="Logo"
                 width={150}
                 height={40}
-              />
+              /> */}
             </>
           ) : (
             <img
@@ -294,6 +301,7 @@ const AppSidebar: React.FC = () => {
           )}
         </Link>
       </div>
+
       <div className="flex flex-col overflow-y-auto duration-300 ease-linear no-scrollbar">
         <nav className="mb-6">
           <div className="flex flex-col gap-4">

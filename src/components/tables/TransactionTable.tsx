@@ -15,10 +15,10 @@ const columnHelper = createColumnHelper<Transaction>();
 const columns = [
   columnHelper.accessor("id", {
     header: "ID",
-    cell: (info) => info.getValue(),
+    cell: (info) => <div className="w-6 truncate">{info.getValue()}</div>,
   }),
   columnHelper.accessor("sender_id", {
-    header: "Sender ID",
+    header: "Envoyeur",
     cell: (info) => (
       <div className="w-24 truncate" title={info.getValue()}>
         {info.getValue()}
@@ -26,7 +26,7 @@ const columns = [
     ),
   }),
   columnHelper.accessor("receiver_id", {
-    header: "Receiver ID",
+    header: "Receveur",
     cell: (info) => (
       <div className="max-w-24 truncate" title={info.getValue()}>
         {info.getValue()}
@@ -34,7 +34,7 @@ const columns = [
     ),
   }),
   columnHelper.accessor("amount", {
-    header: "Amount",
+    header: "Montant",
     cell: (info) => info.getValue() ?? "N/A",
   }),
   columnHelper.accessor("process_time_secondes", {
@@ -42,11 +42,11 @@ const columns = [
     cell: (info) => info.getValue(),
   }),
   columnHelper.accessor("kind_op", {
-    header: "Operation Type",
+    header: "Type d'Opération",
     cell: (info) => info.getValue() ?? "N/A",
   }),
   columnHelper.accessor("status", {
-    header: "Status",
+    header: "Statut",
     cell: (info) => (
       <span
         className={`px-2 py-1 rounded-full text-xs ${
@@ -60,12 +60,20 @@ const columns = [
     ),
   }),
   columnHelper.accessor("createdAt", {
-    header: "Created At",
-    cell: (info) => new Date(info.getValue()).toLocaleString(),
+    header: "date de création",
+    cell: (info) => (
+      <div className="w-28 truncate" title={info.getValue()}>
+        {new Date(info.getValue()).toLocaleString()}
+      </div>
+    ),
   }),
   columnHelper.accessor("updatedAt", {
-    header: "Updated At",
-    cell: (info) => new Date(info.getValue()).toLocaleString(),
+    header: "Mise à jour",
+    cell: (info) => (
+      <div className="w-28 truncate" title={info.getValue()}>
+        {new Date(info.getValue()).toLocaleString()}
+      </div>
+    ),
   }),
 ];
 

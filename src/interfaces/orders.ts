@@ -10,6 +10,11 @@ export interface GeoPosition {
   coordinates: [number, number];
 }
 
+export interface Image {
+  filename: string;
+  url: string;
+}
+
 export interface Product {
   id_produit: number;
   nom_produit: string;
@@ -22,7 +27,7 @@ export interface Product {
   merchant_payment_id: string;
   geo_position: GeoPosition | null;
   deleted: boolean;
-  image: string[];
+  image: Image[];
   status: string;
   createdAt: string;
   updatedAt: string;
@@ -44,7 +49,7 @@ export interface Command {
   createdAt: string;
   updatedAt: string;
   product: Product;
-  merchant: null; 
+  merchant: null;
 }
 
 export interface CommandsResponse {
