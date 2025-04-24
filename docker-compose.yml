@@ -1,4 +1,6 @@
 services:
+
+  adminsedomyapp:
     build:
       context: .
       dockerfile: Dockerfile
