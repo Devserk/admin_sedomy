@@ -9,7 +9,4 @@ COPY package*.json ./
 # Installer les dépendances
 RUN npm install
 
-# Copier tout le projet
-COPY . .
-
 EXPOSE 10004
