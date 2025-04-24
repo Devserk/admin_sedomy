@@ -1,6 +1,7 @@
 services:
 
   adminsedomyapp:
+    command: npx vite dev
     build:
       context: .
       dockerfile: Dockerfile
