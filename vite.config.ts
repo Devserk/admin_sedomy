@@ -18,8 +18,8 @@ export default defineConfig({
   ],
   server: {
     https: {
-      key: fs.readFileSync('certs/privkey.pem'),
-      cert: fs.readFileSync('certs/fullchain.pem'),
+      key: fs.readFileSync('./certs/privkey.pem'),
+      cert: fs.readFileSync('./certs/fullchain.pem'),
     },
     allowedHosts: ['emes.bj'],
     cors: true,
