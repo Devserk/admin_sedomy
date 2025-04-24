@@ -6,6 +6,6 @@ services:
       dockerfile: Dockerfile
     restart: "unless-stopped"
     ports:
-      - "10004:5173"
+      - "10004:10004"
     volumes:
       - .:/app
