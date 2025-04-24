@@ -17,8 +17,8 @@ export default defineConfig({
   ],
   server: {
     allowedHosts: ['emes.bj'],
-    cors: true,
-    host: "0.0.0.0",
-    port: 10004,
+    cors: true
+/*     host: "0.0.0.0",
+    port: 10004, */
   }
 });
