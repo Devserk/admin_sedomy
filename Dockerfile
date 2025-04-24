@@ -5,3 +5,5 @@ WORKDIR /app
 
 # Copier les fichiers package.json et package-lock.json
 COPY package.json ./
+
+RUN npm install -g vite
