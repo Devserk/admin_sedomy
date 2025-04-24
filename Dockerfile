@@ -13,4 +13,3 @@ RUN npm install
 # Exposer le port sur lequel l'application écoute
 EXPOSE 10004
 
-RUN npm install vite --save-dev
