@@ -13,7 +13,7 @@ RUN npm install
 # Exposer le port sur lequel l'application écoute
 EXPOSE 10004
 
-RUN npx install vite
+RUN npm install vite
 
 # Commande pour démarrer l'application
 CMD ["npx", "vite", "dev"]
