@@ -4,11 +4,10 @@ FROM node:latest
 WORKDIR /app
 
 # Copier les fichiers package.json et package-lock.json
-COPY package*.json ./
+COPY package.json ./
 
 # Installer les dépendances
 RUN npm install
 
-RUN npm install vite
 
 EXPOSE 10004
