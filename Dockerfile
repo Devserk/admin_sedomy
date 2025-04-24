@@ -4,4 +4,4 @@ FROM node:latest
 WORKDIR /app
 
 # Copier les fichiers package.json et package-lock.json
-COPY package*.json ./
+COPY package.json ./
