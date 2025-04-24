@@ -1,6 +1,4 @@
 services:
-
-:
     build:
       context: .
       dockerfile: Dockerfile
