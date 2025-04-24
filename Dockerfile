@@ -8,6 +8,3 @@ COPY package.json ./
 
 # Installer les dépendances
 RUN npm install
-
-
-EXPOSE 10004

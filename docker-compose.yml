@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    restart: "unless-stopped"
+    restart: "on-failure"
     ports:
       - "10004:10004"
     volumes:
