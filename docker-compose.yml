@@ -9,3 +9,4 @@ services:
       - "10004:10004"
     volumes:
       - .:/app
+      - ./certs:/app/certs
