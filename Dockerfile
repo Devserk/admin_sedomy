@@ -13,5 +13,6 @@ RUN npm install
 # Exposer le port sur lequel l'application écoute
 EXPOSE 10004
 
+
 # Commande pour démarrer l'application
-CMD ["npm", "run", "dev"]
+CMD ["npx", "vite", "dev"]
