@@ -411,8 +411,8 @@ const KycRequest2Details2 = () => {
           {/* En-tête */}
           <div className="flex justify-between items-start">
             <h1 className="text-3xl font-bold text-gray-800">
-              Demande de Kyc 
-              {/* #{data.id} */}
+            Demande de Kyc 
+            {/* #{data.id} */}
             </h1>
             <button
               onClick={() => navigate(-1)}
